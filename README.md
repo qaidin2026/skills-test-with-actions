@@ -14,52 +14,41 @@ _创建工作流，让你的项目具备持续集成（CI）能力。_
 </header>
 
 <!--
-  <<< Author notes: Step 1 >>>
-  Choose 3-5 steps for your course.
-  The first step is always the hardest, so pick something easy!
-  Link to docs.github.com for further explanations.
-  Encourage users to open new tabs for steps!
+  <<< Author notes: Step 2 >>>
+  Start this step by acknowledging the previous step.
+  Define terms and link to docs.github.com.
 -->
 
-## Step 1: 添加测试工作流
+## Step 2: 修复测试问题
 
-_欢迎来到 "GitHub Actions: 持续集成" 课程! :wave:_
+_做得好！你已经成功添加了模板工作流! :tada:*_
 
-**什么是 _持续集成(CI)_?**: [Continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) 它能帮助你在团队开发中保持良好的代码质量。每次提交（commit）都会触发自动构建和测试，测试结果会反馈到 GitHub 的拉取请求（Pull Request）中。这样既能减少 `main` 分支中的问题，又能让你在开发时获得更快的反馈。
+把这个文件添加到分支中后，GitHub Actions 就会自动在你的仓库上运行持续集成（CI）流程。
 
-![An illustration with a left half and a right half. On the left: illustration of how GitHub Actions terms are encapsulated. At the highest level: workflows and event triggers. Inside workflows: jobs and definition of the build environment. Inside jobs: steps. Inside steps: a call to an action. On the right: the evaluated sequence: workflow, job, step, action.](https://user-images.githubusercontent.com/6351798/88589835-f5ce0900-d016-11ea-8c8a-0e7d7907c713.png)
+当 GitHub Actions 开始执行工作流时，你会在拉取请求的合并区域看到类似下图的检查进度：
 
-- **Workflow（工作流）**：从触发到结束的一整套自动化流程。包括触发条件、运行环境以及触发后执行的任务。
-- **Job（任务）**：工作流中的一个阶段，由一个或多个步骤组成。例如，这里我们定义的 `build` 任务就是其中一部分。
-- **Step（步骤）**：任务中的一个具体动作，比如运行某个命令或执行一个 Action。
-- **Action（动作）**：一个可复用的自动化单元，可以由 GitHub 官方、开源社区，或者你自己编写。
+<img alt="checks in progress in a merge box" src=https://user-images.githubusercontent.com/16547949/66080348-ecc5f580-e533-11e9-909e-c213b08790eb.png width=400 />
 
-想了解更多，请查看 GitHub 文档：[Workflow syntax for GitHub Actions](https://docs.github.com/actions/using-workflows/workflow-syntax-for-github-actions)。
+你可以通过进入 **Actions** 标签页，或者点击合并区域中的 **Details（详细信息）**，来查看 GitHub Actions 的执行情况。
 
-接下来，我们要在这个仓库中添加一个工作流，用来检测（lint）Markdown 文件的格式一致性。
+测试完成后，你会看到一个红色叉号 :x:（代表失败）或 :heavy_check_mark:（代表通过）。这时，你可以打开构建日志，查看每个步骤的执行结果。
 
-### :keyboard: 实操环节: 添加测试工作流
+*能从日志中看出是哪个测试没通过吗？*
+进入一个失败的构建，向下滚动日志，找到列出所有单元测试的部分。带有 “x” 的那一项就是出错的测试。
 
-1. 打开一个新的浏览器标签页，方便一边操作一边阅读本教程。
-2. 进入仓库的 **Actions** tab页。
-3. 点击 **New workflow（新建工作流）**。
-4. 搜索 “Simple workflow”，并点击 **Configure（配置）**。
-5. 将工作流文件命名为 `ci.yml`。
-6. 删除模板中最后两个步骤。
-7. 在工作流的末尾添加以下步骤：
+<img alt="screenshot of a sample build log with the names of the tests blurred out" src=https://user-images.githubusercontent.com/16547949/65922013-e740a200-e3b1-11e9-8151-faf52c30201e.png width=400 />
 
-   ```yml
-   - name: Run markdown lint
-     run: |
-       npm install remark-cli remark-preset-lint-consistent
-       npx remark . --use remark-preset-lint-consistent --frail
-   ```
+如果没有出现检查结果，或者检查卡在“运行中”状态，可以尝试以下方法让它重新触发：
 
-   > 即使在 `ci.yml` 中正确缩进后，GitHub Actions 仍可能报错。我们会在下一步修复它。
-8. 点击 **Commit changes...（提交更改）**，并选择创建一个名为 `ci` 的新分支。
-9. 点击 **Propose changes（提交修改建议）**。
-10. 点击 **Create pull request（创建拉取请求）**。
-11. 等待大约 20 秒，然后刷新此页面（即当前教程页面）。[GitHub Actions](https://docs.github.com/actions) 会自动检测并跳转到下一步。
+* 刷新页面，有时工作流已运行完，但页面尚未更新。
+* 在当前分支上再提交一次，因为工作流是通过 `push` 事件触发的。
+* 打开 GitHub 上的工作流文件，确认没有红色波浪线提示语法错误。
+
+### :keyboard: 实操环节：修复测试问题
+
+1. 修改 `ci` 分支中的内容，为了让测试能够通过。你需要查看日志来找出失败的原因。
+2. **提交更改（Commit changes）**。
+3. 等待大约 20 秒，然后刷新此页面（当前教程页面）。[GitHub Actions](https://docs.github.com/actions) 会自动检测并跳转到下一步。
 
 <footer>
 
